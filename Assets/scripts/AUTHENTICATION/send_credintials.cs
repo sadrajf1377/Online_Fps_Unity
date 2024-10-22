@@ -33,8 +33,9 @@ public class send_credintials : MonoBehaviour
     void Start()
     {
         current_squad_users = new List<string>();
-        PlayerPrefs.SetString("session_id", "");
+        session_id = PlayerPrefs.GetString("session_id");
         StartCoroutine(Ask_For_User_Info());
+       
     }
    
     // Update is called once per frame
@@ -152,12 +153,12 @@ public class send_credintials : MonoBehaviour
    IEnumerator Ask_For_User_Info()
     {
         string url = "http://127.0.0.1:8000/Get_User_Info/";
-     
-        using(UnityWebRequest req=UnityWebRequest.Get(url))
+        print("session_id=" + session_id);
+        using (UnityWebRequest req=UnityWebRequest.Get(url))
         {
             try { 
                 req.SetRequestHeader("cookie","session_id="+session_id);
-                
+                print("session_id=" + session_id);
                 
             } catch { }
             yield return req.SendWebRequest();
@@ -355,7 +356,7 @@ public class send_credintials : MonoBehaviour
         {
             StartCoroutine(Request_Token());
             yield return new WaitUntil(() => current_token != "");
-            //req.SetRequestHeader("cookie", "session_id=" + PlayerPrefs.GetString("session_id"));
+           
             req.SetRequestHeader("cookie","session_id="+PlayerPrefs.GetString("session_id"));
             yield return req.SendWebRequest();
             if( req.isHttpError || req.isNetworkError)
