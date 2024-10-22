@@ -153,12 +153,12 @@ public class send_credintials : MonoBehaviour
    IEnumerator Ask_For_User_Info()
     {
         string url = "http://127.0.0.1:8000/Get_User_Info/";
-        print("session_id=" + session_id);
+        
         using (UnityWebRequest req=UnityWebRequest.Get(url))
         {
             try { 
                 req.SetRequestHeader("cookie","session_id="+session_id);
-                print("session_id=" + session_id);
+                
                 
             } catch { }
             yield return req.SendWebRequest();
@@ -369,6 +369,7 @@ public class send_credintials : MonoBehaviour
                 if(data["status"]== "Logged Out Successfully")
                 {
                     PlayerPrefs.SetString("session_id", ""); previous_tab = tabs.Find(x => x.name == "User_Info");
+                    session_id = "";
                     previous_tab.SetActive(false); previous_tab= tabs.Find(x => x.name == "Log_in_form");
                     previous_tab.SetActive(true);
 
